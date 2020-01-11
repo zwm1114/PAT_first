@@ -14,6 +14,7 @@ typedef struct{
 	Point road;
 }Map;
 
+//first,do not know how to store the datas of a graph
 int main(){
 	int cities,roads,c1,c2;
 	scanf("%d %d %d %d",&cities,&roads,&c1,&c2);
