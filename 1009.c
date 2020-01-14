@@ -3,15 +3,18 @@
     Date: 2020/1/14 14:29:03
 */
 #include <stdio.h>
+#include <stdlib.h>
 typedef struct{
 	int exp;
 	float coe;
 }poly;
 
+int compar(const void *,const void *);
 int main(){
 	int k1,k2;
 	int i,j;
-	int k = 0; 
+	int k = 0;
+	int count = 0; 
 	scanf("%d",&k1);
 	poly p1[k1];
 	for(i = 0;i < k1;i ++){
@@ -24,6 +27,7 @@ int main(){
 	}
 	poly rp[k1*k2];
 
+	//plus
 	for(i = 0;i < k1; i ++){
 		for(j = 0; j < k2; j ++){
 			rp[k].exp = p1[i].exp + p2[j].exp;
@@ -32,20 +36,38 @@ int main(){
 		}
 	}
 
+	//sort
+	qsort(&rp,k,sizeof(poly),compar);
+	
+	count = k;
+	//marry
 	for(i = 0;i < k; i++){
 		for(j = i+1; j < k;j ++){
 			if(rp[i].exp == rp[j].exp){
 				rp[i].coe += rp[j].coe;
-				rp[j].coe = 0;
+				count --;
+				rp[j].exp = -1;
 			}
 		}
 	}
-	printf("%d",k-1);
+	printf("%d",count);
 	for(i = 0;i < k; i ++){
-		if(rp[i].coe != 0){
+		if(rp[i].exp != -1 && rp[i].coe != 0){
 			printf(" %d %.1f",rp[i].exp,rp[i].coe);
 		}
 	}
 	return 0;
 }
 
+int compar(const void *a,const void *b){
+	const poly * pa = (const poly *)a;
+	const poly * pb = (const poly *)b;
+
+	if(pa->exp > pb->exp){
+		return -1;
+	}else if(pa->exp < pb->exp){
+		return 1;
+	}else{
+		return 0;
+	}
+}
